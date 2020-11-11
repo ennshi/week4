@@ -7,20 +7,23 @@ const CORS = {
 };
 const server = Server((req, res) => {
     if(req.url === '/result4/') {
-        let body = '';
+        let body = [];
         req.on('data', chunk => {
-            body += chunk;
+            body.push(Buffer.from(chunk));
         });
         req.on('end', () => {
+            Buffer.concat(body).toString();
             const data = {
                 message: 'enn_shi',
-                'x-result': req.headers['x-test'].toString(),
+                'x-result': req.headers['x-test'],
                 'x-body': body
             };
             res.writeHead(200, {'Content-Type': 'application/json', ...CORS});
             res.write(JSON.stringify(data));
             res.end();
         });
+    } else {
+        res.end();
     }
 });
 server.listen(process.env.PORT || 4000);
