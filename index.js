@@ -9,12 +9,12 @@ const server = Server((req, res) => {
     if(req.url === '/result4/') {
         let body = '';
         req.on('data', chunk => {
-            body = chunk;
+            body += chunk;
         });
         req.on('end', () => {
             const data = {
                 message: 'enn_shi',
-                'x-result': req.headers['x-test'],
+                'x-result': req.headers['x-test'].toString(),
                 'x-body': body
             };
             res.writeHead(200, {'Content-Type': 'application/json', ...CORS});
