@@ -7,12 +7,11 @@ const CORS = {
 };
 const server = Server((req, res) => {
     if(req.url === '/result4/') {
-        let body = [];
+        let body = '';
         req.on('data', chunk => {
-            body.push(Buffer.from(chunk));
+            body += chunk.toString();
         });
         req.on('end', () => {
-            Buffer.concat(body).toString();
             const data = {
                 message: 'enn_shi',
                 'x-result': req.headers['x-test'],
